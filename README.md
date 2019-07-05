@@ -30,15 +30,19 @@ The solution to this is to run the Docker container in the host network, instead
 version: '3'
 
 services:
-ghidra:
-build: ./ghidra-server-docker
-container_name: ghidra-server
-network_mode: host
-hostname: <your hostname>
-ports:
-      - "13100:13100"
-      - "13101:13101"
-      - "13102:13102"
-      ```
+  ghidra:
+    build: ./ghidra-server-docker
+    container_name: ghidra-server
+    network_mode: host
+    hostname: <your hostname>
+    volumes:
+      - "main:/data"
 
-      This docker container is used in a side project [pwnbro](https://github.com/Enigmatrix/pwnbro).
+volumes:
+  main:
+```
+
+This docker container is used in a side project [pwnbro](https://github.com/Enigmatrix/pwnbro).
+
+#### Doesn't work on Mac
+[docker/for-mac#1031](https://github.com/docker/for-mac/issues/1031) explains why. Makes no sense to host a Ghidra server on a Mac anyways.
