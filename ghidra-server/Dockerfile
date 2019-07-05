@@ -1,7 +1,6 @@
 FROM openjdk:11-slim
 ARG GHIDRA_VERSION=9.0_PUBLIC_20190228
 ARG GHIDRA_SHA256=3b65d29024b9decdbb1148b12fe87bcb7f3a6a56ff38475f5dc9dd1cfc7fd6b2
-ARG HOST=daniellimws.hopto.org
 
 RUN useradd -m ghidra && \
     mkdir -p /srv/repositories && \
@@ -24,14 +23,9 @@ RUN apt-get update && apt-get install -y unzip wget gettext-base patch sudo ed l
 VOLUME /srv/repositories
 WORKDIR /opt/ghidra
 ENV ghidra_home=/opt/ghidra
-COPY ./scripts /opt/ghidra/custom_scripts
 COPY server.conf /opt/ghidra/server
 COPY start.sh /opt/ghidra/server
 RUN server/svrInstall
-
-RUN echo "0.0.0.0  ${HOST}" >> /etc/hosts && \
-    echo "wrapper.java.additional.4=-Djava.rmi.server.hostname=${HOST}" >> server/server.conf && \
-    cp /etc/hosts /opt/ghidra/server
 
 CMD server/start.sh
 

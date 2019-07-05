@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  ghidra:
+    build: ./ghidra-server
+    container_name: ghidra-server
+    network_mode: host
+    hostname: localhost
+    volumes:
+      - "main:/data"
+
+volumes:
+  main:
